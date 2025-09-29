@@ -23,7 +23,6 @@ export default function Bytes4Coolors() {
 
     const [copiado, setCopiado] = useState(false);
 
-
     function gerarNovaPaleta() {
         setPaleta(
             paleta.map((cor) =>
@@ -32,10 +31,24 @@ export default function Bytes4Coolors() {
         );
     }
 
+    function copiarCor(hex) {
+        navigator.clipboard.writeText(hex);
+        setCopiado(true);
+        setTimeout(() => setCopiado(false), 1000);
+    }
+
+    function bloquearCor(index) {
+        setPaleta(
+            paleta.map((cor, i) =>
+                i === index ? { ...cor, locked: !cor.locked } : cor
+            )
+        );
+    }
+
     return (
         <div className="relative w-full h-screen">
             <div className="absolute top-5 left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center">
-                <h1 className="text-5xl text-black bg-white/80 font-medium p-6 rounded-3xl mt-5 flex items-center justify-center">
+                <h1 className="text-6xl text-black bg-white/80 font-medium p-6 rounded-3xl mt-5 flex items-center justify-center">
                     Bytes4Coolors </h1>
                 <button className="text-md text-white bg-white/30 p-3 rounded-3xl mt-5"
                     onClick={gerarNovaPaleta}>Gerar Nova Paleta</button>
@@ -44,7 +57,7 @@ export default function Bytes4Coolors() {
                 {paleta.map((cor, index) => (
                     <div
                         key={index}
-                        className="flex flex-col items-center justify-center text-white text-xl p-4 gap-3"
+                        className="flex flex-col items-center justify-center text-white text-3xl p-4 gap-3"
                         style={{ backgroundColor: cor.hex }}>
                         {cor.hex}
 
@@ -73,18 +86,4 @@ export default function Bytes4Coolors() {
             </div>
         </div>
     );
-
-    function copiarCor(hex) {
-        navigator.clipboard.writeText(hex);
-        setCopiado(true);
-        setTimeout(() => setCopiado(false), 1000);
-    }
-
-    function bloquearCor(index) {
-        setPaleta(
-            paleta.map((cor, i) =>
-                i === index ? { ...cor, locked: !cor.locked } : cor
-            )
-        );
-    }
 }
